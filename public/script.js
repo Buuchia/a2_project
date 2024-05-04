@@ -46,8 +46,9 @@ class Symbol {
 
         //charAt() can be called on string data type,
         //which takes a single 'index' argument and returns a new string 
-        //containing only that one character located at that specific offset of the string
-        //in charAt bracket is a random number between 0 and this,chars.length, no decimal
+        //containing only that one character 
+        //located at that specific offset of the string
+        //in charAt bracket is a random rounded number between 0 - this.chars.length
         //so this.text will have a random character from the this.chars string
         this.text = this.chars.charAt(Math.floor (Math.random() * this.chars.length))
 
