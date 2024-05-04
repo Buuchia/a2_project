@@ -221,6 +221,11 @@ async function getWebcamFeed() {
     }
   }
 
+const videoCanvas = document.createElement('canvas');
+videoCanvas.width = cnv.width; // Set the same width as the main canvas
+videoCanvas.height = cnv.height; // Set the same height as the main canvas
+videoCanvas.style.display = 'none'; // Make the canvas hidden
+
 //Processing the video
 function processVideo(video, videoCanvas, ctx) {
     ctx.drawImage(video, 0, 0, videoCanvas.width, videoCanvas.height);
