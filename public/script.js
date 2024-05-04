@@ -97,7 +97,7 @@ const effect = new Effect (cnv.width, cnv.height)
 let lastTime = 0
 
 //assigning 30 frames per second to variable fps
-const fps = 30
+const fps = 60
 
 //the amount of millisecond we wait until we trigger and draw the next frame
 const nextFrame = 1000/fps
