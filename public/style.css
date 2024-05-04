@@ -4,8 +4,15 @@
     box-sizing: border-box;
 } */
 
-/* canvas {
+canvas {
     position: absolute;
     top: 0;
     left: 0;
-} */
+}
+
+c2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* This layer will be behind the Matrix rain */
+}

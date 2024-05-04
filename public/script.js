@@ -7,7 +7,7 @@ document.body.style.backgroundColor = 'hsl(' + Math.random() * 360 + ', 100%, 30
 
 //creating a canvas element
 const cnv = document.getElementById (`cnv_element`)
-const cnv_2 = document.getElementById (`canvas_2`)
+
 
 //getting a good size of canvas
 cnv.width = window.innerWidth
