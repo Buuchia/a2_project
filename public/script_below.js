@@ -4,7 +4,7 @@
 // document.body.style.backgroundColor = 'blue'
 
 // //creating a canvas element
-// const cnv = document.getElementById (`c2`)
+// const cnv = document.getElementById (`cnv_below`)
 
 
 // //getting a good size of canvas
