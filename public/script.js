@@ -213,28 +213,3 @@ window.onresize = () => {
    gradient.addColorStop(0.8, 'tomato')
    gradient.addColorStop(1, 'green') //at 100%
 }
-
-
-
-
-
-
-// const draw_frame = () => {
-//    ctx.fillStyle = `turquoise`
-//    ctx.fillRect (0, 0, innerWidth, innerHeight)
-
-//    requestAnimationFrame (draw_frame)
-// }
-
-// draw_frame ()
-
-// window.onresize = () => {
-//    cnv.width = innerWidth
-//    cnv.height = innerHeight   
-// }
-
-// window.addEventListener('resize', function() {
-//     cnv.width = window.innerWidth
-//     cnv.height = window.innerHeight
-//     effect.resize(cnv.width, cnv.height)
-// })
