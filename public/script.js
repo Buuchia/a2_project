@@ -36,7 +36,8 @@ class Symbol {
         //so this.text will have a random character from the this.chars string
         this.text = this.chars.charAt(Math.floor (Math.random() * this.chars.length))
 
-        context.fillStyle = 'green'
+        //to reduce the number of calls, I move this down to function animate()
+        // context.fillStyle = 'green'
 
         //make character sit next to and below each other
         context.fillText(this.text, this.x * this.fontSize, this.y * this.fontSize)
@@ -87,6 +88,14 @@ class Effect {
             this.symbols[i] = new Symbol (i, 0, this.fontSize, this.canvasHeight)
         }
     }
+
+    resize(width, height) {
+        this.canvasWidth = width
+        this.canvasHeight = height
+        this.columns = this.canvasWidth / this.fontSize
+        this.symbols = []
+        this.#init()
+    }
 }
 
 //declaring effect variable
@@ -96,7 +105,7 @@ const effect = new Effect (cnv.width, cnv.height)
 //this variable stores timestamp from the previous frame
 let lastTime = 0
 
-//assigning 30 frames per second to variable fps
+//assigning number of frames per second to variable fps
 const fps = 60
 
 //the amount of millisecond we wait until we trigger and draw the next frame
@@ -110,7 +119,7 @@ let timer = 0
 
 //define a custom function to draw the rain effect
 //60 times per second
-function animate(timeStamp){
+const animate = (timeStamp) => {
 
     //delta time is the difference in milliseconds between 
     //the current animation frame and previous animation frame
@@ -123,10 +132,19 @@ function animate(timeStamp){
 
     //use time stamp and delta time to control framerate
     if (timer > nextFrame) {
-        //drawing semi-transparent rectangles every animation frame
-        //to make old symbols fade away
+        
+        //making semi-transparent rectangles to make old symbols fade away
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+        
+        //characters have different horizontal alignment
+        //so align center to make all of them align evenly
+        ctx.textAlign = 'center'
+        
+        //drawing a rectangle every frame
         ctx.fillRect(0, 0, cnv.width, cnv.height)
+
+        //declaring fill style once for all the symbols in the array per frame
+        ctx.fillStyle = 'green'
 
         //font property specifies the current text style
         //monospace fonts have characters that occupy the same amount of horizontal space
@@ -142,8 +160,6 @@ function animate(timeStamp){
         timer += deltaTime
     }
 
-    
-
     //call the next animation frame
     //this function automatically passes a timestamp argument to the function it calls
     //so function animate() has access to the auto-generated timeStamp argument above
@@ -156,6 +172,11 @@ function animate(timeStamp){
 //so we need to pass it a value, such as 0
 animate(0)
 
+window.onresize = () => {
+   cnv.width = window.innerWidth
+   cnv.height = window.innerHeight   
+   effect.resize(cnv.width, cnv.height)
+}
 
 
 // const draw_frame = () => {
@@ -171,3 +192,9 @@ animate(0)
 //    cnv.width = innerWidth
 //    cnv.height = innerHeight   
 // }
+
+// window.addEventListener('resize', function() {
+//     cnv.width = window.innerWidth
+//     cnv.height = window.innerHeight
+//     effect.resize(cnv.width, cnv.height)
+// })
