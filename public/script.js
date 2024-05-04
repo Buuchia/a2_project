@@ -1,10 +1,13 @@
+//The Matrix Rain code is heavily inspired by Franks laboratory
+
 //setting up the style for the body of document
 document.body.style.margin   = 0
 document.body.style.overflow = `hidden`
-document.body.style.backgroundColor = 'blue'
+document.body.style.backgroundColor = 'hsl(' + Math.random() * 360 + ', 100%, 30%)'
 
 //creating a canvas element
 const cnv = document.getElementById (`cnv_element`)
+const cnv_2 = document.getElementById (`canvas_2`)
 
 //getting a good size of canvas
 cnv.width = window.innerWidth
@@ -12,6 +15,18 @@ cnv.height = window.innerHeight
 
 //getting canvas context
 const ctx = cnv.getContext (`2d`)
+
+//direction of the linear gradient
+//createLinearGradient (startX, startY, endX, endY) syntax
+let gradient = ctx.createLinearGradient(0, 0, cnv.width, cnv.height)
+
+//addColorStop(offset, color), offset is the value between 0 - 1
+gradient.addColorStop(0, 'red') //at 0%
+gradient.addColorStop(0.2, 'cyan')
+gradient.addColorStop(0.4, 'yellow')
+gradient.addColorStop(0.6, 'magenta')
+gradient.addColorStop(0.8, 'tomato')
+gradient.addColorStop(1, 'green') //at 100%
 
 //class Symbol creates and draws individual symbol objects
 //that make up the rain effect
@@ -69,12 +84,12 @@ class Effect {
         console.log (this.symbols)
     }
 
-    //making the init method private by starting with #
-    //to ensure it is not affected by external interaction
-    //#init function fill the symbols array with symbol objects
+    //define an initialise function to fill the symbols array with symbol objects
     //using the Symbol class above
     //the number of symbols depends on the number of columns 
     //inside class Effect's constructor
+    //making the init method private by starting with #
+    //to ensure it is not affected by external interaction
 
     #init(){
 
@@ -89,6 +104,7 @@ class Effect {
         }
     }
 
+    //public resize method so the properties can be updated from outside
     resize(width, height) {
         this.canvasWidth = width
         this.canvasHeight = height
@@ -106,7 +122,7 @@ const effect = new Effect (cnv.width, cnv.height)
 let lastTime = 0
 
 //assigning number of frames per second to variable fps
-const fps = 60
+const fps = 30
 
 //the amount of millisecond we wait until we trigger and draw the next frame
 const nextFrame = 1000/fps
@@ -132,9 +148,12 @@ const animate = (timeStamp) => {
 
     //use time stamp and delta time to control framerate
     if (timer > nextFrame) {
-        
+
+        // ctx.rotate(Math.PI / 4)
+
         //making semi-transparent rectangles to make old symbols fade away
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+        // ctx.fillStyle = 'hsl(' + Math.random() * 360 + ', 100%, 30%)'
         
         //characters have different horizontal alignment
         //so align center to make all of them align evenly
@@ -144,20 +163,26 @@ const animate = (timeStamp) => {
         ctx.fillRect(0, 0, cnv.width, cnv.height)
 
         //declaring fill style once for all the symbols in the array per frame
-        ctx.fillStyle = 'green'
+        //the gradient style applies to the canvas background, not the characters 
+        //so characters take different colors depending on their position on canvas
+        ctx.fillStyle = gradient //'green'
 
         //font property specifies the current text style
         //monospace fonts have characters that occupy the same amount of horizontal space
         ctx.font = effect.fontSize + 'px monospace'
+
+        //draw symbol to the canvas
         effect.symbols.forEach(symbol => symbol.draw(ctx))
 
         //restart timer to 0 so it can start countdown to the next frame again
         timer = 0
+
     } else {
 
         //otherwise increase timer by delta time
         //we don't animate anything and just wait until timer is high enough
         timer += deltaTime
+        
     }
 
     //call the next animation frame
@@ -172,11 +197,24 @@ const animate = (timeStamp) => {
 //so we need to pass it a value, such as 0
 animate(0)
 
+//define function to make the effects responsive to the canvas dimension
+//when user resizes the window viewport
 window.onresize = () => {
    cnv.width = window.innerWidth
    cnv.height = window.innerHeight   
    effect.resize(cnv.width, cnv.height)
+   gradient = ctx.createLinearGradient(0, 0, cnv.width, cnv.height)
+   gradient.addColorStop(0, 'red') //at 0%
+   gradient.addColorStop(0.2, 'cyan')
+   gradient.addColorStop(0.4, 'yellow')
+   gradient.addColorStop(0.6, 'magenta')
+   gradient.addColorStop(0.8, 'tomato')
+   gradient.addColorStop(1, 'green') //at 100%
 }
+
+
+
+
 
 
 // const draw_frame = () => {
