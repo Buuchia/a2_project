@@ -23,7 +23,6 @@ class Symbol {
         this.fontSize = fontSize;
         this.text = ''
         this.canvasHeight = canvasHeight
-
     }
 
     //define a function to randomize current character and draw it to the canvas at a specific location
@@ -37,13 +36,13 @@ class Symbol {
         //so this.text will have a random character from the this.chars string
         this.text = this.chars.charAt(Math.floor (Math.random() * this.chars.length))
 
-        context.fillStyle = 'yellow'
+        context.fillStyle = 'green'
 
         //make character sit next to and below each other
         context.fillText(this.text, this.x * this.fontSize, this.y * this.fontSize)
 
         //when character reaches bottom of canvas height
-        if (this.y * this.fontSize > this.canvasHeight && Math.random() > 0.98) {
+        if (this.y * this.fontSize > this.canvasHeight && Math.random() > 0.9) {
 
             //reset its vertical position back to the top
             this.y = 0
@@ -87,32 +86,75 @@ class Effect {
             //so initial vertical coordinate y is set to 0
             this.symbols[i] = new Symbol (i, 0, this.fontSize, this.canvasHeight)
         }
-
     }
 }
 
 //declaring effect variable
 const effect = new Effect (cnv.width, cnv.height)
 
+//assign 0 to lastTime variable
+//this variable stores timestamp from the previous frame
+let lastTime = 0
+
+//assigning 30 frames per second to variable fps
+const fps = 30
+
+//the amount of millisecond we wait until we trigger and draw the next frame
+const nextFrame = 1000/fps
+
+//this variable accumulates delta time
+//when it reaches threshold defined in next frame
+//it will animate next frame, reset itself to 0
+//and start counting again
+let timer = 0
+
 //define a custom function to draw the rain effect
 //60 times per second
-function animate(){
+function animate(timeStamp){
 
-    //drawing semi-transparent rectangles every animation frame
-    //to make old symbols fade away
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
-    ctx.fillRect(0, 0, cnv.width, cnv.height)
+    //delta time is the difference in milliseconds between 
+    //the current animation frame and previous animation frame
+    //this variable lets us know how many miliseconds it takes 
+    //for our computer to serve next frame of animation
+    const deltaTime = timeStamp - lastTime
 
-    //font property specifies the current text style
-    //monospace fonts have characters that occupy the same amount of horizontal space
-    ctx.font = effect.fontSize + 'px monospace'
-    effect.symbols.forEach(symbol => symbol.draw(ctx))
+    //assign new timeStamp to lastTime so it can be used for next loop
+    lastTime = timeStamp
+
+    //use time stamp and delta time to control framerate
+    if (timer > nextFrame) {
+        //drawing semi-transparent rectangles every animation frame
+        //to make old symbols fade away
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+        ctx.fillRect(0, 0, cnv.width, cnv.height)
+
+        //font property specifies the current text style
+        //monospace fonts have characters that occupy the same amount of horizontal space
+        ctx.font = effect.fontSize + 'px monospace'
+        effect.symbols.forEach(symbol => symbol.draw(ctx))
+
+        //restart timer to 0 so it can start countdown to the next frame again
+        timer = 0
+    } else {
+
+        //otherwise increase timer by delta time
+        //we don't animate anything and just wait until timer is high enough
+        timer += deltaTime
+    }
+
+    
 
     //call the next animation frame
+    //this function automatically passes a timestamp argument to the function it calls
+    //so function animate() has access to the auto-generated timeStamp argument above
+    //but we only have timestamp argument for second loop
     requestAnimationFrame(animate)
 }
 
-animate()
+//first loop of animation is called here
+//so there is no auto-generated timestamp
+//so we need to pass it a value, such as 0
+animate(0)
 
 
 
