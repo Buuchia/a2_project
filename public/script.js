@@ -1,7 +1,7 @@
 //setting up the style for the body of document
 document.body.style.margin   = 0
 document.body.style.overflow = `hidden`
-document.body.style.backgroundColor = 'black'
+document.body.style.backgroundColor = 'blue'
 
 //creating a canvas element
 const cnv = document.getElementById (`cnv_element`)
@@ -20,7 +20,7 @@ class Symbol {
         this.chars = 'アァカサタナハマヤャラワガザダバパイィキシチニ☀☁❆WELCOMETOMYZANYWORLD❅❄ヒミリヰギジヂビピウゥクスツヌフムユュルLETSBEMORECHAOTICグズブヅプ♔♕♖♗♘♙エェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン'
         this.x = x
         this.y = y
-        this.fontSize = fontSize
+        this.fontSize = fontSize;
         this.text = ''
         this.canvasHeight = canvasHeight
 
@@ -37,17 +37,23 @@ class Symbol {
         //so this.text will have a random character from the this.chars string
         this.text = this.chars.charAt(Math.floor (Math.random() * this.chars.length))
 
-        context.fillStyle = '#0aff0a'
+        context.fillStyle = 'yellow'
 
         //make character sit next to and below each other
-        context.fillText(this.text, this.x * this.fontSize, this.y * fontSize)
+        context.fillText(this.text, this.x * this.fontSize, this.y * this.fontSize)
 
-        if (this.y * this.fontSize > this.canvasHeight) {
+        //when character reaches bottom of canvas height
+        if (this.y * this.fontSize > this.canvasHeight && Math.random() > 0.98) {
+
+            //reset its vertical position back to the top
             this.y = 0
+
         } else {
+            //otherwise, increase it by 1
+            //the next symbol will be drawn below depending on font size 
+            //with no overlapping
             this.y += 1
         }
-
     }
 }
 
@@ -57,9 +63,9 @@ class Effect {
         this.canvasWidth = canvasWidth
         this.canvasHeight = canvasHeight
         this.fontSize = 25
-        this.columns = this.canvasWidth / this.fontsize
+        this.columns = this.canvasWidth / this.fontSize
         this.symbols = [] //empty array to store symbol objects
-        this.#init() //calling private method
+        this.#init() //calling private method from inside constructor
         console.log (this.symbols)
     }
 
@@ -73,9 +79,12 @@ class Effect {
     #init(){
 
         //for loop will run once for each column
-        //each time it will fill that index in symbol array 
+        //each time it will fill that index in symbols array 
         //with an instance of Symbol class
         for (let i = 0; i < this.columns; i++){
+
+            //the rain starts failling from top
+            //so initial vertical coordinate y is set to 0
             this.symbols[i] = new Symbol (i, 0, this.fontSize, this.canvasHeight)
         }
 
@@ -88,12 +97,24 @@ const effect = new Effect (cnv.width, cnv.height)
 //define a custom function to draw the rain effect
 //60 times per second
 function animate(){
+
+    //drawing semi-transparent rectangles every animation frame
+    //to make old symbols fade away
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+    ctx.fillRect(0, 0, cnv.width, cnv.height)
+
+    //font property specifies the current text style
+    //monospace fonts have characters that occupy the same amount of horizontal space
     ctx.font = effect.fontSize + 'px monospace'
     effect.symbols.forEach(symbol => symbol.draw(ctx))
+
+    //call the next animation frame
     requestAnimationFrame(animate)
 }
 
 animate()
+
+
 
 // const draw_frame = () => {
 //    ctx.fillStyle = `turquoise`
