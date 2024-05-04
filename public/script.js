@@ -137,7 +137,7 @@ let timer = 0
 
 //define a custom function to draw the rain effect
 //60 times per second
-const animate = async (timeStamp) => {
+const animate = async timeStamp => {
 
     //delta time is the difference in milliseconds between 
     //the current animation frame and previous animation frame
