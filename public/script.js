@@ -168,7 +168,7 @@ const animate = timeStamp => {
         ctx.fillStyle = gradient //'green'
 
         //font property specifies the current text style
-        //monospace fonts have characters that occupy the same amount of horizontal space
+        //add wingdings fonts to have more interesting symbols
         ctx.font = effect.fontSize + 'px Wingdings'
 
         //draw symbol to the canvas
