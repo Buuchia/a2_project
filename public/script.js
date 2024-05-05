@@ -8,15 +8,12 @@ document.body.style.backgroundColor = 'hsl(' + Math.random() * 360 + ', 100%, 30
 //creating a canvas element
 const cnv = document.getElementById (`cnv_element`)
 
-// const div = document.getElementById (`ascii_div`)
-
 //getting a good size of canvas
 cnv.width = window.innerWidth
 cnv.height = window.innerHeight
 
 //getting canvas context
 const ctx = cnv.getContext (`2d`)
-
 
 //direction of the linear gradient
 //createLinearGradient (startX, startY, endX, endY) syntax
@@ -34,7 +31,7 @@ gradient.addColorStop(1, 'green') //at 100%
 //that make up the rain effect
 class Symbol {
     constructor(x, y, fontSize, canvasHeight) {
-        this.chars = 'アァカサタナハマヤャラワガザダバパイィキシチニ☀☁❆WELCOMETOMYZANYWORLD❅❄ヒミリヰギジヂビピウゥクスツヌフムユュルLETSBEMORECHAOTICグズブヅプ♔♕♖♗♘♙エェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン'
+        this.chars = 'ポヴッンWELCOMETOMYZANYWORLDグズブヅプアァカサタナボ'
         this.x = x
         this.y = y
         this.fontSize = fontSize;
@@ -55,10 +52,10 @@ class Symbol {
         this.text = this.chars.charAt(Math.floor (Math.random() * this.chars.length))
 
         //to reduce the number of calls, I move this down to function animate()
-        // context.fillStyle = 'green'
+        // ctx.fillStyle = 'green'
 
         //make character sit next to and below each other
-        context.fillText(this.text, this.x * this.fontSize, this.y * this.fontSize)
+        ctx.fillText(this.text, this.x * this.fontSize, this.y * this.fontSize)
 
         //when character reaches bottom of canvas height
         if (this.y * this.fontSize > this.canvasHeight && Math.random() > 0.9) {
@@ -172,14 +169,13 @@ const animate = timeStamp => {
 
         //font property specifies the current text style
         //monospace fonts have characters that occupy the same amount of horizontal space
-        ctx.font = effect.fontSize + 'px monospace'
+        ctx.font = effect.fontSize + 'px Wingdings'
 
         //draw symbol to the canvas
         effect.symbols.forEach(symbol => symbol.draw(ctx))
 
         //restart timer to 0 so it can start countdown to the next frame again
         timer = 0
-
 
     } else {
 
