@@ -7,7 +7,7 @@ document.body.style.backgroundColor = 'hsl(' + Math.random() * 360 + ', 100%, 30
 
 //creating a canvas element
 const cnv = document.getElementById (`cnv_element`)
-// cnv.style.zIndex = -1
+cnv.style.zIndex = -1
 
 //getting a good size of canvas
 cnv.width = window.innerWidth
@@ -16,8 +16,15 @@ cnv.height = window.innerHeight
 //getting canvas context
 const ctx = cnv.getContext (`2d`)
 
-const div = document.createElement('div_element')
-div.style.zIndex = 1
+// //create a new div element for glitch self portrait
+// const div = document.createElement('glitch_self_portrait')
+// // const div_ctx = div.getContext (`2d`) //getting 2d context, not working
+// div.style.zIndex = 1 //this div will be in front of the canvas element
+
+// div.width = cnv.parentNode.scrollWidth
+// div.height = cnv.width * 9 / 16
+// div.style.backgroundColor = 'hotpink'
+
 
 //direction of the linear gradient
 //createLinearGradient (startX, startY, endX, endY) syntax
@@ -126,7 +133,7 @@ const effect = new Effect (cnv.width, cnv.height)
 let lastTime = 0
 
 //assigning number of frames per second to variable fps
-const fps = 30
+const fps = 60
 
 //the amount of millisecond we wait until we trigger and draw the next frame
 const nextFrame = 1000/fps
@@ -180,17 +187,19 @@ const animate = timeStamp => {
 
         //restart timer to 0 so it can start countdown to the next frame again
         timer = 0
+
+        //draw a new text across the page
+        ctx.font = '500px Akronim bold' //font name and size
+        ctx.textBaseline = "middle"
+        ctx.textAlign = "center"
+        ctx.fillStyle = 'hsl(' + Math.random() * 360 + ', 100%, 50%)'
+        ctx.fillText("ZANY", cnv.width /2 , cnv.height /2)
         
-        // div.fillRect(0, 0, cnv.width / 2, cnv.height / 2)
-        // div.fillStyle = 'rgba(0, 0, 250, 0.1)'
-        // console.log(div.fillStyle)
 
     } else {
-
         //otherwise increase timer by delta time
         //we don't animate anything and just wait until timer is high enough
         timer += deltaTime
-        
     }
 
     //call the next animation frame
