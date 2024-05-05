@@ -133,7 +133,7 @@ const effect = new Effect (cnv.width, cnv.height)
 let lastTime = 0
 
 //assigning number of frames per second to variable fps
-const fps = 60
+const fps = 120
 
 //the amount of millisecond we wait until we trigger and draw the next frame
 const nextFrame = 1000/fps
@@ -211,7 +211,7 @@ animate(0)
 
 //define a function to draw the Zany text
 const drawText = () => {
-    ctx.font = '500px Akronim bold' //font name and size
+    ctx.font = 'bold 500px Roboto' //font name and size
     ctx.textBaseline = "middle"
     ctx.textAlign = "center"
     ctx.fillStyle = 'hsl(' + Math.random() * 360 + ', 100%, 50%)'
