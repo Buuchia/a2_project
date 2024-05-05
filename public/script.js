@@ -264,12 +264,12 @@ function play_note (note, length) {
     // create an oscillator
     const osc = audio_context.createOscillator ()
 
-    // make it a triangle wave this time
-    osc.type            = 'triangle'
+    // make it a square wave this time
+    osc.type            = 'square'
 
     // set the value using the equation 
     // for midi note to Hz
-    osc.frequency.value = 440 * 2 ** ((note - 69) / 12)
+    osc.frequency.value = 261.63 * 2 ** ((note - 40) / 20)
 
     // create an amp node
     const amp = audio_context.createGain ()
