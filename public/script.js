@@ -187,14 +187,9 @@ const animate = timeStamp => {
 
         //restart timer to 0 so it can start countdown to the next frame again
         timer = 0
-
-        //draw a new text across the page
-        ctx.font = '500px Akronim bold' //font name and size
-        ctx.textBaseline = "middle"
-        ctx.textAlign = "center"
-        ctx.fillStyle = 'hsl(' + Math.random() * 360 + ', 100%, 50%)'
-        ctx.fillText("ZANY", cnv.width /2 , cnv.height /2)
         
+        //call the function to draw Zany text
+        drawText()
 
     } else {
         //otherwise increase timer by delta time
@@ -213,6 +208,15 @@ const animate = timeStamp => {
 //so there is no auto-generated timestamp
 //so we need to pass it a value, such as 0
 animate(0)
+
+//define a function to draw the Zany text
+const drawText = () => {
+    ctx.font = '500px Akronim bold' //font name and size
+    ctx.textBaseline = "middle"
+    ctx.textAlign = "center"
+    ctx.fillStyle = 'hsl(' + Math.random() * 360 + ', 100%, 50%)'
+    ctx.fillText("ZANY", cnv.width /2 , cnv.height /2)
+}
 
 //define function to make the effects responsive to the canvas dimension
 //when user resizes the window viewport
