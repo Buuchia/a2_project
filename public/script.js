@@ -8,9 +8,7 @@ document.body.style.backgroundColor = 'hsl(' + Math.random() * 360 + ', 100%, 30
 //creating a canvas element
 const cnv = document.getElementById (`cnv_element`)
 
-//
-const div = document.getElementById (`ascii_div`)
-
+// const div = document.getElementById (`ascii_div`)
 
 //getting a good size of canvas
 cnv.width = window.innerWidth
@@ -18,6 +16,7 @@ cnv.height = window.innerHeight
 
 //getting canvas context
 const ctx = cnv.getContext (`2d`)
+
 
 //direction of the linear gradient
 //createLinearGradient (startX, startY, endX, endY) syntax
@@ -45,7 +44,7 @@ class Symbol {
 
     //define a function to randomize current character and draw it to the canvas at a specific location
     //every time the method is called, it will choose a random symbol
-    draw(context) {
+    draw(ctx) {
 
         //charAt() can be called on string data type,
         //which takes a single 'index' argument and returns a new string 
@@ -181,9 +180,6 @@ const animate = timeStamp => {
         //restart timer to 0 so it can start countdown to the next frame again
         timer = 0
 
-        getWebcamFeed()
-
-        processVideo()
 
     } else {
 
@@ -204,45 +200,6 @@ const animate = timeStamp => {
 //so there is no auto-generated timestamp
 //so we need to pass it a value, such as 0
 animate(0)
-
-//Accessing webcam feed
-//define a function to asynchronously request webcam access 
-//and returns a video element if successful.
-async function getWebcamFeed() {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, facingMode: `user`, });
-      const video = document.createElement('video');
-      video.srcObject = stream;
-      await video.play();
-      return video;
-    } catch (error) {
-      console.error('Error accessing webcam:', error);
-      return null; // Handle access denial or errors
-    }
-  }
-
-const videoCanvas = document.createElement('canvas');
-videoCanvas.width = cnv.width; // Set the same width as the main canvas
-videoCanvas.height = cnv.height; // Set the same height as the main canvas
-videoCanvas.style.display = 'none'; // Make the canvas hidden
-
-//Processing the video
-function processVideo(video, videoCanvas, ctx) {
-    ctx.drawImage(video, 0, 0, videoCanvas.width, videoCanvas.height);
-    //manipulate the video frame data using pixel manipulation techniques (covered later).
-  }
-
-  const imageData = ctx.getImageData(0, 0, videoCanvas.width, videoCanvas.height);
-
-  for (let i = 0; i < imageData.data.length; i += 4) {
-    const avg = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
-    imageData.data[i] = avg; // Red
-    imageData.data[i + 1] = avg; // Green
-    imageData.data[i + 2] = avg; // Blue
-    imageData.data[i + 3] = 255; // Alpha (keep transparency)
-  }
-
-  ctx.putImageData(imageData, 0, 0);
 
 //define function to make the effects responsive to the canvas dimension
 //when user resizes the window viewport
