@@ -16,16 +16,6 @@ cnv.height = window.innerHeight
 //getting canvas context
 const ctx = cnv.getContext (`2d`)
 
-// //create a new div element for glitch self portrait
-// const div = document.createElement('glitch_self_portrait')
-// // const div_ctx = div.getContext (`2d`) //getting 2d context, not working
-// div.style.zIndex = 1 //this div will be in front of the canvas element
-
-// div.width = cnv.parentNode.scrollWidth
-// div.height = cnv.width * 9 / 16
-// div.style.backgroundColor = 'hotpink'
-
-
 //direction of the linear gradient
 //createLinearGradient (startX, startY, endX, endY) syntax
 let gradient = ctx.createLinearGradient(0, 0, cnv.width, cnv.height)
@@ -228,6 +218,10 @@ animate(0)
 
 //define a function to draw the Zany text
 const drawText = () => {
+
+    ctx.rotate((45 * Math.PI) / 180) //rotate the canvas by 45 degrees
+    // ctx.clearRect(0, 0, cnv.width / 2, cnv.height / 3) //test, if enable, delete half width of rect
+
     ctx.font = 'bold 500px Roboto' //font name and size
     ctx.textBaseline = "middle"
     ctx.textAlign = "center"
