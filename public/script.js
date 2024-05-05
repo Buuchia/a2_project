@@ -7,6 +7,7 @@ document.body.style.backgroundColor = 'hsl(' + Math.random() * 360 + ', 100%, 30
 
 //creating a canvas element
 const cnv = document.getElementById (`cnv_element`)
+// cnv.style.zIndex = -1
 
 //getting a good size of canvas
 cnv.width = window.innerWidth
@@ -14,6 +15,9 @@ cnv.height = window.innerHeight
 
 //getting canvas context
 const ctx = cnv.getContext (`2d`)
+
+const div = document.createElement('div_element')
+div.style.zIndex = 1
 
 //direction of the linear gradient
 //createLinearGradient (startX, startY, endX, endY) syntax
@@ -176,6 +180,10 @@ const animate = timeStamp => {
 
         //restart timer to 0 so it can start countdown to the next frame again
         timer = 0
+        
+        // div.fillRect(0, 0, cnv.width / 2, cnv.height / 2)
+        // div.fillStyle = 'rgba(0, 0, 250, 0.1)'
+        // console.log(div.fillStyle)
 
     } else {
 
@@ -211,3 +219,4 @@ window.onresize = () => {
    gradient.addColorStop(0.8, 'tomato')
    gradient.addColorStop(1, 'green') //at 100%
 }
+
