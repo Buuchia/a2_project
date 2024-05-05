@@ -4,6 +4,8 @@
 document.body.style.margin   = 0
 document.body.style.overflow = `hidden`
 document.body.style.backgroundColor = 'hsl(' + Math.random() * 360 + ', 100%, 30%)'
+document.body.style.mixBlendMode = 'color-dodge'
+
 
 //creating a canvas element
 const cnv = document.getElementById (`cnv_element`)
